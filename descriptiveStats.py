@@ -198,12 +198,20 @@ print("Segunda vs tercera")
 print(pvalue_classes_sec_third)
 print("Primera vs tercera")
 print(pvalue_classes_first_third)
-if pvalue_classes_first_sec <0.01:
+if pvalue_classes_first_sec > 0.01:
+    print("Hay una diferencia significativa entre la primera y segunda clase")
+if pvalue_classes_sec_third > 0.01:
+    print("Hay una diferencia significativa entre la segunda y tercera clase")
+if pvalue_classes_first_third > 0.01:
+    print("Hay una diferencia significativa entre la primera y tercera clase")
 
 # 4- A partir de los datos de la muestra, con una certeza del 95 %
 # ¿Es posible afirmar que en promedio las mujeres eran más jóvenes que los hombres en el barco?
 
-# statistic, pvalue_mean_age = stats.ttest_1samp()
-
 statistic, pvalue_ages = stats.ttest_ind(female_ages, male_ages, alternative="less")
 print(pvalue_ages)
+
+if pvalue_ages < 0.05:
+    print("En promedio, no podemos afirmarlo")
+else:
+    print("En promedio, podemos afirmarlo")
