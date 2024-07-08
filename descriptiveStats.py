@@ -106,7 +106,7 @@ print_to_file("datos.txt", to_print)
 
 # 2da parte
 print("\n2da Parte")
-# 1- Construir un intervalo de confianza, con confianza 95 %, para la edad promedio de las personas en el barco.
+print("1- Construir un intervalo de confianza, con confianza 95 %, para la edad promedio de las personas en el barco.")
 std_d_div_n = standard_d_age / number_of_rows
 print("Intervalo de confianza")
 intervalo_confianza = (
@@ -114,19 +114,19 @@ intervalo_confianza = (
     float(mean_age - (1.96 * std_d_div_n)),
 )
 print(intervalo_confianza)
-# 2- A partir de los datos de la muestra, con una certeza del 95 %
-# ¿Es posible afirmar que el promedio de edad de las mujeres interesadas en abordar el Titanik es mayor a 56 años?
-# ¿Es posible afirmar lo mismo para los hombres?
-
+print("\n2- A partir de los datos de la muestra, con una certeza del 95 %")
+print("¿Es posible afirmar que el promedio de edad de las mujeres interesadas en abordar el Titanik es mayor a 56 años?")
+print("¿Es posible afirmar lo mismo para los hombres?"
 female_ages = titanik_dataframe.loc[titanik_dataframe["gender"] == "female"]["age"]
 male_ages = titanik_dataframe.loc[titanik_dataframe["gender"] == "male"]["age"]
-# 95% -> Se rechaza la hipotesis si el pvalue es menor a 0.05
+print("Como se quiere manejar una certeza del 95%, entonces nuestro alpha valdría 1 - 95% = 0.05")
+print("La hipotesis se rechaza si el pvalue es menor a 0.05")
 stat_female, pvalue_female = stats.ttest_1samp(female_ages, 56, alternative="greater")
 stat_male, pvalue_male = stats.ttest_1samp(male_ages, 56, alternative="greater")
 
-print("\nValor P mujer y hombre (respectivamente)")
-print(pvalue_female)
-print(pvalue_male)
+print("\nValor P para si son mayores a 56, en promedio")
+print(f"Mujer: {pvalue_female}")
+print(f"Hombre: {pvalue_male}")
 if pvalue_female < 0.05:
     print("No es posible afirmarlo para las mujeres")
 else:
@@ -137,8 +137,8 @@ else:
     print("Es posible afirmarlo para los hombres")
 
 
-# 3- A partir de los datos de la muestra, con una certeza del 99 %
-# ¿Existe una diferencia significativa en la tasa de supervivencia entre hombres y mujeres?
+print("\n3- A partir de los datos de la muestra, con una certeza del 99 %")
+print("¿Existe una diferencia significativa en la tasa de supervivencia entre hombres y mujeres?")
 
 
 surv_male = titanik_dataframe[titanik_dataframe["gender"] == "female"]["survived"]
@@ -146,6 +146,7 @@ surv_female = titanik_dataframe[titanik_dataframe["gender"] == "male"]["survived
 len_surv_male = len(surv_male)
 len_surv_female = len(surv_female)
 len_total = 0
+# El método necesita que tengan la misma cantidad de elementos, así que reduzco al que tenga menor cantidad
 if len_surv_female <= len_surv_male:
     len_total = len_surv_female
 else:
@@ -155,14 +156,14 @@ else:
 statistic, pvalue_genders = stats.ttest_ind(
     surv_female[0:len_total], surv_male[0:len_total]
 )
-print("\nValor p generos")
+print("Valor p de diferencia entre promedio de edad por género")
 print(pvalue_genders)
 if pvalue_genders < 0.01:
     print("Existe una diferencia significativa entre hombres y mujeres")
 else:
     print("No existe una diferencia significativa entre hombres y mujeres")
 
-# ¿Existe una diferencia significativa en la tasa de supervivencia en las distintas clases?
+print("\n¿Existe una diferencia significativa en la tasa de supervivencia en las distintas clases?")
 surv_first_class = titanik_dataframe[titanik_dataframe["p_class"] == 1]["survived"]
 surv_sec_class = titanik_dataframe[titanik_dataframe["p_class"] == 2]["survived"]
 surv_third_class = titanik_dataframe[titanik_dataframe["p_class"] == 3]["survived"]
@@ -198,7 +199,7 @@ statistic, pvalue_classes_sec_third = stats.ttest_ind(
     surv_sec_class[0:len_total],
 )
 
-print("Valores p por clases")
+print("Valores p de diferencia entre promedios por clases")
 print("Primera vs segunda")
 print(pvalue_classes_first_sec)
 print("Segunda vs tercera")
@@ -221,11 +222,11 @@ else:
     print("No hay una diferencia significativa entre la segunda y tercera clase")
 
 
-# 4- A partir de los datos de la muestra, con una certeza del 95 %
-# ¿Es posible afirmar que en promedio las mujeres eran más jóvenes que los hombres en el barco?
-
+print("\n4- A partir de los datos de la muestra, con una certeza del 95 %")
+print("¿Es posible afirmar que en promedio las mujeres eran más jóvenes que los hombres en el barco?")
+# Utilizando less, para que el valor p responda a si son
 statistic, pvalue_ages = stats.ttest_ind(female_ages, male_ages, alternative="less")
-print(pvalue_ages)
+print(f"Valor p para diferencia entre promedios {pvalue_ages}")
 print(
     "Es posible afirmar que las mujeres eran en promedio más jovenes que los hombres?"
 )
