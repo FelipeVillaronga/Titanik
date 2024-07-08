@@ -205,10 +205,19 @@ print("Primera vs tercera")
 print(pvalue_classes_first_third)
 if pvalue_classes_first_sec > 0.01:
     print("Hay una diferencia significativa entre la primera y segunda clase")
+else:
+    print("No hay una diferencia significativa entre la primera y segunda clase")
+
 if pvalue_classes_sec_third > 0.01:
     print("Hay una diferencia significativa entre la segunda y tercera clase")
+else:
+    print("No hay una diferencia significativa entre la segunda y tercera clase")
+
 if pvalue_classes_first_third > 0.01:
     print("Hay una diferencia significativa entre la primera y tercera clase")
+else:
+    print("No hay una diferencia significativa entre la segunda y tercera clase")
+
 
 # 4- A partir de los datos de la muestra, con una certeza del 95 %
 # ¿Es posible afirmar que en promedio las mujeres eran más jóvenes que los hombres en el barco?
