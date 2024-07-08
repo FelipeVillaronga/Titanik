@@ -224,7 +224,9 @@ else:
 
 statistic, pvalue_ages = stats.ttest_ind(female_ages, male_ages, alternative="less")
 print(pvalue_ages)
-
+print(
+    "Es posible afirmar que las mujeres eran en promedio más jovenes que los hombres?"
+)
 if pvalue_ages < 0.05:
     print("En promedio, no podemos afirmarlo")
 else:
