@@ -2,7 +2,7 @@ import pandas as pd
 from diagramMaker import histogramer, box_plotter
 from scipy import stats
 
-def loadAndModifyAge():
+def load_and_modify_age():
     # 1- Cargar dataframe
     titanik_dataframe = pd.read_csv("titanik.csv")
     
@@ -23,7 +23,7 @@ def loadAndModifyAge():
     ] = women_mean_age
     return titanik_dataframe
 
-titanik_dataframe = loadAndModifyAge()
+titanik_dataframe = load_and_modify_age()
 # 3- Calcular media, moda, rango, varianza y desviación estandar
 mean_age = titanik_dataframe.age.mean()
 mode_age = titanik_dataframe.age.mode()[0]
