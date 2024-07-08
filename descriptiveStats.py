@@ -224,7 +224,7 @@ else:
 
 print("\n4- A partir de los datos de la muestra, con una certeza del 95 %")
 print("¿Es posible afirmar que en promedio las mujeres eran más jóvenes que los hombres en el barco?")
-# Utilizando less, para que el valor p responda a si son
+# Utilizando less, para que el valor p responda a si es menor el promedio de las mujeres que el de los hombres
 statistic, pvalue_ages = stats.ttest_ind(female_ages, male_ages, alternative="less")
 print(f"Valor p para diferencia entre promedios {pvalue_ages}")
 print(
