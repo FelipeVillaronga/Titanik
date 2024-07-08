@@ -2,26 +2,28 @@ import pandas as pd
 from diagramMaker import histogramer, box_plotter
 from scipy import stats
 
-# 1- Cargar dataframe
-titanik_dataframe = pd.read_csv("titanik.csv")
+def loadAndModifyAge():
+    # 1- Cargar dataframe
+    titanik_dataframe = pd.read_csv("titanik.csv")
+    
+    # 2- Corregir edades vacías, por genero, con la media de edad
+    men_mean_age = titanik_dataframe.loc[titanik_dataframe.gender == "male"].age.mean()
+    print("La edad promedio de los hombres es:")
+    print(men_mean_age)
+    women_mean_age = titanik_dataframe.loc[titanik_dataframe.gender == "female"].age.mean()
+    print("La edad promedio de las mujeres es:")
+    print(women_mean_age)
+    print()
+    titanik_dataframe.loc[
+        (titanik_dataframe["gender"] == "male") & (titanik_dataframe["age"].isna()), "age"
+    ] = men_mean_age
+    titanik_dataframe.loc[
+        (titanik_dataframe["gender"] == "female") & (titanik_dataframe["age"].isna()),
+        "age",
+    ] = women_mean_age
+    return titanik_dataframe
 
-# 2- Corregir edades vacías, por genero, con la media de edad
-men_mean_age = titanik_dataframe.loc[titanik_dataframe.gender == "male"].age.mean()
-print("La edad promedio de los hombres es:")
-print(men_mean_age)
-women_mean_age = titanik_dataframe.loc[titanik_dataframe.gender == "female"].age.mean()
-print("La edad promedio de las mujeres es:")
-print(women_mean_age)
-print()
-titanik_dataframe.loc[
-    (titanik_dataframe["gender"] == "male") & (titanik_dataframe["age"].isna()), "age"
-] = men_mean_age
-titanik_dataframe.loc[
-    (titanik_dataframe["gender"] == "female") & (titanik_dataframe["age"].isna()),
-    "age",
-] = women_mean_age
-
-
+titanik_dataframe = loadAndModifyAge()
 # 3- Calcular media, moda, rango, varianza y desviación estandar
 mean_age = titanik_dataframe.age.mean()
 mode_age = titanik_dataframe.age.mode()[0]
