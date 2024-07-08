@@ -7,9 +7,12 @@ titanik_dataframe = pd.read_csv("titanik.csv")
 
 # 2- Corregir edades vacías, por genero, con la media de edad
 men_mean_age = titanik_dataframe.loc[titanik_dataframe.gender == "male"].age.mean()
+print("La edad promedio de los hombres es:")
 print(men_mean_age)
 women_mean_age = titanik_dataframe.loc[titanik_dataframe.gender == "female"].age.mean()
+print("La edad promedio de las mujeres es:")
 print(women_mean_age)
+print()
 titanik_dataframe.loc[
     (titanik_dataframe["gender"] == "male") & (titanik_dataframe["age"].isna()), "age"
 ] = men_mean_age
@@ -32,8 +35,6 @@ if n_ages % 2 == 0:
 else:
     median_age = ages[n_ages // 2]
 
-print("mediana")
-print(median_age)
 for age in ages:
     variance_age += (age - mean_age) ** 2
 number_of_rows = titanik_dataframe.shape[0]
@@ -42,7 +43,9 @@ standard_d_age = variance_age ** (1 / 2)
 
 
 # 4- Tasa de supervivencia general
+print("Tasa de supervivencia general: ")
 superv_rate = titanik_dataframe.survived.mean()
+print(superv_rate)
 # 5- Por género
 superv_rate_male = titanik_dataframe.loc[
     titanik_dataframe["gender"] == "male", "survived"
@@ -50,7 +53,9 @@ superv_rate_male = titanik_dataframe.loc[
 superv_rate_female = titanik_dataframe.loc[
     titanik_dataframe["gender"] == "female", "survived"
 ].mean()
-
+print("Tasa de supervivencia por genero: ")
+print(f"Hombres: {superv_rate_male}")
+print(f"Mujeres: {superv_rate_female}")
 # 6. Realizar un histograma de las edades de los pasajeros por clase (primera, segunda y tercera).
 # Proponga un modelo para la distribuci´on de la variable edad en el barco.
 
@@ -80,7 +85,7 @@ box_plotter(
 )
 
 
-# Guardo toda la data
+# Guardo toda la data en un txt
 def print_to_file(filename, content):
     with open(filename, "w") as file:
         file.write(content)
@@ -98,7 +103,7 @@ print_to_file("datos.txt", to_print)
 
 
 # 2da parte
-
+print("\n2da Parte")
 # 1- Construir un intervalo de confianza, con confianza 95 %, para la edad promedio de las personas en el barco.
 std_d_div_n = standard_d_age / number_of_rows
 print("Intervalo de confianza")
@@ -117,7 +122,7 @@ male_ages = titanik_dataframe.loc[titanik_dataframe["gender"] == "male"]["age"]
 stat_female, pvalue_female = stats.ttest_1samp(female_ages, 56, alternative="greater")
 stat_male, pvalue_male = stats.ttest_1samp(male_ages, 56, alternative="greater")
 
-print("Valor P mujer y hombre (respectivamente)")
+print("\nValor P mujer y hombre (respectivamente)")
 print(pvalue_female)
 print(pvalue_male)
 if pvalue_female < 0.05:
@@ -148,7 +153,7 @@ else:
 statistic, pvalue_genders = stats.ttest_ind(
     surv_female[0:len_total], surv_male[0:len_total]
 )
-print("Valor p generos")
+print("\nValor p generos")
 print(pvalue_genders)
 if pvalue_genders < 0.01:
     print("Existe una diferencia significativa entre hombres y mujeres")
