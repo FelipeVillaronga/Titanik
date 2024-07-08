@@ -1,0 +1,9 @@
+Media edad: 57.529133940454855
+Moda edad: 58.454742975932184
+Mediana: 57.75422001515064
+Rango de edad: (1.0977265142380197, 99.9662725902142)
+Varianza de edad: 580.6346926243558
+Desviación estandar: 24.09636264302884
+Tasa de supervivencia general: 0.40093603744149764
+Tasa de supervivencia hombres: 0.32579650565262075
+Tasa de supervivencia mujeres: 0.47789473684210526
