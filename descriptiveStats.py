@@ -2,26 +2,31 @@ import pandas as pd
 from diagramMaker import histogramer, box_plotter
 from scipy import stats
 
+
 def load_and_modify_age():
     # 1- Cargar dataframe
     titanik_dataframe = pd.read_csv("titanik.csv")
-    
+
     # 2- Corregir edades vacías, por genero, con la media de edad
     men_mean_age = titanik_dataframe.loc[titanik_dataframe.gender == "male"].age.mean()
     print("La edad promedio de los hombres es:")
     print(men_mean_age)
-    women_mean_age = titanik_dataframe.loc[titanik_dataframe.gender == "female"].age.mean()
+    women_mean_age = titanik_dataframe.loc[
+        titanik_dataframe.gender == "female"
+    ].age.mean()
     print("La edad promedio de las mujeres es:")
     print(women_mean_age)
     print()
     titanik_dataframe.loc[
-        (titanik_dataframe["gender"] == "male") & (titanik_dataframe["age"].isna()), "age"
+        (titanik_dataframe["gender"] == "male") & (titanik_dataframe["age"].isna()),
+        "age",
     ] = men_mean_age
     titanik_dataframe.loc[
         (titanik_dataframe["gender"] == "female") & (titanik_dataframe["age"].isna()),
         "age",
     ] = women_mean_age
     return titanik_dataframe
+
 
 titanik_dataframe = load_and_modify_age()
 # 3- Calcular media, moda, rango, varianza y desviación estandar
@@ -106,25 +111,31 @@ print_to_file("datos.txt", to_print)
 
 # 2da parte
 print("\n2da Parte")
-print("1- Construir un intervalo de confianza, con confianza 95 %, para la edad promedio de las personas en el barco.")
+print(
+    "1- Construir un intervalo de confianza, con confianza 95 %, para la edad promedio de las personas en el barco."
+)
 std_d_div_n = standard_d_age / number_of_rows
 print("Intervalo de confianza")
 intervalo_confianza = (
-    float(mean_age + 1.96 * std_d_div_n),
     float(mean_age - (1.96 * std_d_div_n)),
+    float(mean_age + 1.96 * std_d_div_n),
 )
 print(intervalo_confianza)
 print("\n2- A partir de los datos de la muestra, con una certeza del 95 %")
-print("¿Es posible afirmar que el promedio de edad de las mujeres interesadas en abordar el Titanik es mayor a 56 años?")
-print("¿Es posible afirmar lo mismo para los hombres?"
+print(
+    "¿Es posible afirmar que el promedio de edad de las mujeres interesadas en abordar el Titanik es mayor a 56 años?"
+)
+print("¿Es posible afirmar lo mismo para los hombres?")
 female_ages = titanik_dataframe.loc[titanik_dataframe["gender"] == "female"]["age"]
 male_ages = titanik_dataframe.loc[titanik_dataframe["gender"] == "male"]["age"]
-print("Como se quiere manejar una certeza del 95%, entonces nuestro alpha valdría 1 - 95% = 0.05")
+print(
+    "Como se quiere manejar una certeza del 95%, entonces nuestro alpha valdría 1 - 95% = 0.05"
+)
 print("La hipotesis se rechaza si el pvalue es menor a 0.05")
 stat_female, pvalue_female = stats.ttest_1samp(female_ages, 56, alternative="greater")
 stat_male, pvalue_male = stats.ttest_1samp(male_ages, 56, alternative="greater")
 
-print("\nValor P para si son mayores a 56, en promedio")
+print("Valor P para si son mayores a 56, en promedio")
 print(f"Mujer: {pvalue_female}")
 print(f"Hombre: {pvalue_male}")
 if pvalue_female < 0.05:
@@ -138,7 +149,9 @@ else:
 
 
 print("\n3- A partir de los datos de la muestra, con una certeza del 99 %")
-print("¿Existe una diferencia significativa en la tasa de supervivencia entre hombres y mujeres?")
+print(
+    "¿Existe una diferencia significativa en la tasa de supervivencia entre hombres y mujeres?"
+)
 
 
 surv_male = titanik_dataframe[titanik_dataframe["gender"] == "female"]["survived"]
@@ -159,11 +172,15 @@ statistic, pvalue_genders = stats.ttest_ind(
 print("Valor p de diferencia entre promedio de edad por género")
 print(pvalue_genders)
 if pvalue_genders < 0.01:
+    print("Es menor a alpha 0.01")
     print("Existe una diferencia significativa entre hombres y mujeres")
 else:
+    print("Es mayor o igual a alpha 0.01")
     print("No existe una diferencia significativa entre hombres y mujeres")
 
-print("\n¿Existe una diferencia significativa en la tasa de supervivencia en las distintas clases?")
+print(
+    "\n¿Existe una diferencia significativa en la tasa de supervivencia en las distintas clases?"
+)
 surv_first_class = titanik_dataframe[titanik_dataframe["p_class"] == 1]["survived"]
 surv_sec_class = titanik_dataframe[titanik_dataframe["p_class"] == 2]["survived"]
 surv_third_class = titanik_dataframe[titanik_dataframe["p_class"] == 3]["survived"]
@@ -223,7 +240,9 @@ else:
 
 
 print("\n4- A partir de los datos de la muestra, con una certeza del 95 %")
-print("¿Es posible afirmar que en promedio las mujeres eran más jóvenes que los hombres en el barco?")
+print(
+    "¿Es posible afirmar que en promedio las mujeres eran más jóvenes que los hombres en el barco?"
+)
 # Utilizando less, para que el valor p responda a si es menor el promedio de las mujeres que el de los hombres
 statistic, pvalue_ages = stats.ttest_ind(female_ages, male_ages, alternative="less")
 print(f"Valor p para diferencia entre promedios {pvalue_ages}")
