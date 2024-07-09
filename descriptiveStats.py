@@ -181,6 +181,9 @@ else:
 print(
     "\n¿Existe una diferencia significativa en la tasa de supervivencia en las distintas clases?"
 )
+
+# Se realiza la prueba T entre las las distintas clases, 1 a 1, porque así lo deja realizar la función
+# No sabemos por qué salta el error, suponemos que serán muy parecidos los datos entre clases
 surv_first_class = titanik_dataframe[titanik_dataframe["p_class"] == 1]["survived"]
 surv_sec_class = titanik_dataframe[titanik_dataframe["p_class"] == 2]["survived"]
 surv_third_class = titanik_dataframe[titanik_dataframe["p_class"] == 3]["survived"]
@@ -223,17 +226,17 @@ print("Segunda vs tercera")
 print(pvalue_classes_sec_third)
 print("Primera vs tercera")
 print(pvalue_classes_first_third)
-if pvalue_classes_first_sec > 0.01:
+if pvalue_classes_first_sec < 0.01:
     print("Hay una diferencia significativa entre la primera y segunda clase")
 else:
     print("No hay una diferencia significativa entre la primera y segunda clase")
 
-if pvalue_classes_sec_third > 0.01:
+if pvalue_classes_sec_third < 0.01:
     print("Hay una diferencia significativa entre la segunda y tercera clase")
 else:
     print("No hay una diferencia significativa entre la segunda y tercera clase")
 
-if pvalue_classes_first_third > 0.01:
+if pvalue_classes_first_third < 0.01:
     print("Hay una diferencia significativa entre la primera y tercera clase")
 else:
     print("No hay una diferencia significativa entre la segunda y tercera clase")
@@ -250,6 +253,6 @@ print(
     "Es posible afirmar que las mujeres eran en promedio más jovenes que los hombres?"
 )
 if pvalue_ages < 0.05:
-    print("En promedio, no podemos afirmarlo")
-else:
     print("En promedio, podemos afirmarlo")
+else:
+    print("En promedio, no podemos afirmarlo")
