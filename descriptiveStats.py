@@ -29,6 +29,7 @@ def load_and_modify_age():
 
 
 titanik_dataframe = load_and_modify_age()
+
 # 3- Calcular media, moda, rango, varianza y desviación estandar
 mean_age = titanik_dataframe.age.mean()
 mode_age = titanik_dataframe.age.mode()[0]
@@ -48,11 +49,11 @@ number_of_rows = titanik_dataframe.shape[0]
 variance_age = variance_age / number_of_rows
 standard_d_age = variance_age ** (1 / 2)
 
-
 # 4- Tasa de supervivencia general
 print("Tasa de supervivencia general: ")
 superv_rate = titanik_dataframe.survived.mean()
 print(superv_rate)
+
 # 5- Por género
 superv_rate_male = titanik_dataframe.loc[
     titanik_dataframe["gender"] == "male", "survived"
@@ -63,6 +64,7 @@ superv_rate_female = titanik_dataframe.loc[
 print("Tasa de supervivencia por genero: ")
 print(f"Hombres: {superv_rate_male}")
 print(f"Mujeres: {superv_rate_female}")
+
 # 6. Realizar un histograma de las edades de los pasajeros por clase (primera, segunda y tercera).
 # Proponga un modelo para la distribuci´on de la variable edad en el barco.
 
@@ -78,6 +80,7 @@ histogramer(
     class_age_distributions,
     ["tercera clase", "segunda clase", "primera clase"],
 )
+
 # 7. Realizar un diagrama de cajas para las edades de los supervivientes, y otro para las edades de los
 # no supervivientes. ¿Es posible extraer alguna conclusi´on?
 survived_ages = titanik_dataframe.loc[titanik_dataframe["survived"] == 1].age.tolist()
@@ -108,7 +111,6 @@ to_print = (
 print(to_print)
 print_to_file("datos.txt", to_print)
 
-
 # 2da parte
 print("\n2da Parte")
 print(
@@ -131,7 +133,8 @@ male_ages = titanik_dataframe.loc[titanik_dataframe["gender"] == "male"]["age"]
 print(
     "Como se quiere manejar una certeza del 95%, entonces nuestro alpha valdría 1 - 95% = 0.05"
 )
-print("La hipotesis se rechaza si el pvalue es menor a 0.05")
+print("La hipotesis nula se rechaza si el pvalue es menor a 0.05")
+# Utilizando grater, para comprobar frente a si el promedio de edad es mayor a 56
 stat_female, pvalue_female = stats.ttest_1samp(female_ages, 56, alternative="greater")
 stat_male, pvalue_male = stats.ttest_1samp(male_ages, 56, alternative="greater")
 
@@ -139,13 +142,13 @@ print("Valor P para si son mayores a 56, en promedio")
 print(f"Mujer: {pvalue_female}")
 print(f"Hombre: {pvalue_male}")
 if pvalue_female < 0.05:
-    print("No es posible afirmarlo para las mujeres")
-else:
     print("Es posible afirmarlo para las mujeres")
-if pvalue_male < 0.05:
-    print("No es posible afirmarlo para los hombres")
 else:
+    print("No es posible afirmarlo para las mujeres")
+if pvalue_male < 0.05:
     print("Es posible afirmarlo para los hombres")
+else:
+    print("No es posible afirmarlo para los hombres")
 
 
 print("\n3- A partir de los datos de la muestra, con una certeza del 99 %")
